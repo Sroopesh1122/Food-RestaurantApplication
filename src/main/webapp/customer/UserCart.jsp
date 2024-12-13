@@ -412,7 +412,7 @@ int totalCartItems = userCartDao.getTotalItem(user.getUserId());
 				items!</h1>
 			<a
 				href="<%=request.getContextPath() + "/customer/AllFoodItems.jsp"%>">Browser
-				Here</a>
+				here</a>
 		</div>
 
 		<%

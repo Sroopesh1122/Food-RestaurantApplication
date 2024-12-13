@@ -232,6 +232,11 @@ int totalCartItems = userCartDao.getTotalItem(user.getUserId());
 	margin-left: 5px;
 }
 
+.hide{
+  display: none !important;
+}
+
+
 @media ( max-width :425px) {
 	#cart-section {
 		padding: 5px;
@@ -374,35 +379,17 @@ int totalCartItems = userCartDao.getTotalItem(user.getUserId());
 				 
 				  <div id="delivery-address">
 				    
-				     <p ><%=user.getAddress()!=null ? user.getAddress() : "" %></p>
-				       <%
-				        if(user.getAddress()!=null)
-				        {
-				        	%>
+				     <p id="delivery-address-tag" ><%=user.getAddress()!=null ? user.getAddress() : "Enter Address" %></p>
 				        	  
-				        	 <button id="address-change-btn">Change</button>
-				        	<%
-				        }
-				       %>
-				     
+				     <button id="address-change-btn">Change</button>
 				   </div>
 				   
-				<%
-				 if(user.getAddress()==null){
-					 %>
-					  <div id="add-address-form">
+				
+					  <div id="add-address-form" class="hide">
 					     <h6>Add Address</h6>
 				         <input type="text" id="new-deleivery-address">
 				         <button id="saved-address-btn">Save Address</button>
-					 </div>
-					
-					 <%
-				 }
-				 
-				
-				%>
-				
-				
+					 </div>				
 				</div>
 				
 			</div>

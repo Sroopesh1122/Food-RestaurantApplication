@@ -101,4 +101,34 @@
     <servlet-name>Demo</servlet-name>
     <url-pattern>/Demo</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Checkout</display-name>
+    <servlet-name>Checkout</servlet-name>
+    <servlet-class>com.foodApp.restaurant.customerController.Checkout</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Checkout</servlet-name>
+    <url-pattern>/Checkout</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddReview</display-name>
+    <servlet-name>AddReview</servlet-name>
+    <servlet-class>com.foodApp.restaurant.foodController.AddReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddReview</servlet-name>
+    <url-pattern>/AddReview</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BuyOrderController</display-name>
+    <servlet-name>BuyOrderController</servlet-name>
+    <servlet-class>com.foodApp.restaurant.customerController.BuyOrderController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BuyOrderController</servlet-name>
+    <url-pattern>/BuyOrderController</url-pattern>
+  </servlet-mapping>
 </web-app>

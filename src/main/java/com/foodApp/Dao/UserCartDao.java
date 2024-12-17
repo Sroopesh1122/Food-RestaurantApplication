@@ -9,13 +9,17 @@ public interface UserCartDao
 {
   public UserCart add (UserCart userCart) throws CustomException;
   public List<UserCart> getCartItems(int userId ,int page , int limit) throws CustomException;
+  //To get All cart items
+  public List<UserCart> getCartItems(int userId) throws CustomException;
   public boolean deleteCart(int cartId) throws CustomException;
   
   //To check wheather the food item present in usercart or not
   public boolean getCartItem(int userId , int foodId) throws CustomException;
   
   //To get total available in userCart
-  
   public int getTotalItem(int userId) throws CustomException;
+  
+  //To delete all cartItem of user
+  public boolean delete(int userId) throws CustomException;
   
 }

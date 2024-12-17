@@ -18,6 +18,18 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	$("#checkout-btn").on('click',()=>{
+		const address = $("#delivery-address-tag").text()
+		if(address != "Enter Address" || !address)
+		{
+			$("#form-address").val(address);
+			$("#cart-form").submit();
+		}
+	})
+
+    
+
 
 	$('#address-change-btn').on('click', () => {
 		$('#add-address-form').removeClass("hide");

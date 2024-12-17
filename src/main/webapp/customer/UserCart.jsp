@@ -235,13 +235,26 @@ int totalCartItems = userCartDao.getTotalItem(user.getUserId());
 .hide{
   display: none !important;
 }
+#address-change-btn ,#saved-address-btn{
+ padding: 2px 4px ;
+ font-size: 0.7em;
+ border-radius: 10px;
+ border: none;
+}
+#add-address-form h6{
+ font-size: 0.9rem;
+}
+#add-address-form input{
+ border: 1px solid graytext;
+ border-radius: 8px;
+}
 
 
 @media ( max-width :425px) {
 	#cart-section {
 		padding: 5px;
 		flex-direction: column-reverse;
-		justify-content: flex-end;
+		justify-content: flex-end; 
 	}
 	#cart-items-wrapper {
 		width: 90%;
@@ -312,8 +325,8 @@ int totalCartItems = userCartDao.getTotalItem(user.getUserId());
 			<h5>
 				Total Items
 				<%=totalCartItems%></h5>
-			<form class="w-full cart-items-container">
-
+			<form class="w-full cart-items-container" id="cart-form" method="post" action="<%= request.getContextPath()+"/customer/CheckoutOrder.jsp"%>">
+                 <input type="hidden" name="address" id="form-address">
 				<%
 				FoodItemDao foodItemDao = new FoodItemDaoImpl();
 				RestaurantDao restaurantDao = new RestaurantDaoImplmpl();
@@ -395,7 +408,7 @@ int totalCartItems = userCartDao.getTotalItem(user.getUserId());
 			</div>
 
 			<div class="footer">
-				<button>Check Out</button>
+				<button id="checkout-btn">Check Out</button>
 			</div>
 
 		</div>

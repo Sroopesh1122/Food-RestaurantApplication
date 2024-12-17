@@ -21,4 +21,5 @@ public class FoodItem
   private int availability;
   private Timestamp createdAt;
   private String img;
+  private double rating;
 }

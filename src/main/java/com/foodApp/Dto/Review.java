@@ -18,4 +18,5 @@ public class Review
  private int rating;
  private String comment;
  private Timestamp reviewDate;
+ private int foodId;
 }

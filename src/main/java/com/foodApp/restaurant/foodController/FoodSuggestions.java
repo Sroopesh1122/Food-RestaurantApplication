@@ -3,7 +3,6 @@ package com.foodApp.restaurant.foodController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,6 +28,7 @@ public class FoodSuggestions extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		StringBuilder jsonString =  new StringBuilder();
 		 FoodItemDao foodItemDao = new	FoodItemDaoImpl();
 		try(BufferedReader reader = request.getReader())

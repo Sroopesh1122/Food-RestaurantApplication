@@ -13,6 +13,8 @@ $(document).ready(function() {
 			}
 
 		}
+		
+		
 
 		else {
 
@@ -57,7 +59,7 @@ $(document).ready(function() {
 		const inputValue = $(this).val();
 		const jsonData = { text: inputValue };
 		if (inputValue != "") {
-			fetch("http://localhost:8080/OnlineFood/suggestion/food", {
+			fetch("http://localhost:8080/OnlineFoodRestaurant/suggestion/food", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -74,7 +76,6 @@ $(document).ready(function() {
 					if (data.length > 0) {
 						searchData = data;
 						suggestionPointer = 0;
-
 						$("#suggestion").addClass("suggestion-results")
 						$("#suggestion").removeClass("suggestion-not-found")
 						$("#suggestion").show();
@@ -116,7 +117,7 @@ function handleSuggestionClick(value) {
 }
 
 function handleCardClick(url) {
-	alert(url)
+	window.location.href= url
 }
 
 function handleCartBtnClick(userId, foodId, loginUrl, cartUrl) {
@@ -180,6 +181,12 @@ function handleCartBtnClick(userId, foodId, loginUrl, cartUrl) {
 function handlePreventDefault(event)
 {
 	event.stopPropagation()
+}
+
+function handleBuyClick(url)
+{
+	
+	window.location.href= url;
 }
 
 

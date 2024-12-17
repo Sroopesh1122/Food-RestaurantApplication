@@ -20,4 +20,9 @@ public interface FoodItemDao
   //for customer
   public int totalFoodItem (String text) throws CustomException;
   public List<FoodAndRestaurant> getFoodItem (String text ,int page ,int limit ) throws CustomException;
+  
+  
+  //to get FoodSuggestion based on category
+  
+  public List<FoodItem> getFoodItemByCategories(List<String> category ,int limit ) throws CustomException;
 }

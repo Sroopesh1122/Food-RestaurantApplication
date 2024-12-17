@@ -1,3 +1,5 @@
+<%@page import="com.foodApp.Dao.ReviewDaoImpl"%>
+<%@page import="com.foodApp.Dao.ReviewDao"%>
 <%@page import="com.foodApp.Dao.UserCartDaoImpl"%>
 <%@page import="com.foodApp.Dao.UserCartDao"%>
 <%@page import="com.foodApp.Dto.FoodAndRestaurant"%>
@@ -102,6 +104,10 @@ section {
 	font-size: 1.4rem;
 	margin-top: 5px;
 	color: black;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 4px;
 }
 
 .food-card .desc {
@@ -224,6 +230,15 @@ section {
 	padding: 2px 5px;
 }
 
+.rating {
+	font-size: 0.8rem;
+}
+
+.fa-star {
+	color: #ffd60a;
+	text-shadow: 1px 1px 1px black !important;
+}
+
 @media ( max-width :425px) {
 	section {
 		padding: 10px;
@@ -268,35 +283,45 @@ section {
 			for (FoodAndRestaurant foodItem : foodItems) {
 				FoodItem foodData = foodItem.getFoodItem();
 				Restaurant restaurantData = foodItem.getRestaurant();
+				ReviewDao reviewDao = new ReviewDaoImpl();
+				double rating = reviewDao.getRating(foodData.getFoodId());
 			%>
 			<div class="food-card"
-				onclick="handleCardClick('<%=request.getContextPath() + "/restaurant/FoodItem.jsp?id=" + foodData.getFoodId()%>')">
+				onclick="handleCardClick('<%=request.getContextPath() + "/customer/Food.jsp?foodId=" + foodData.getFoodId()%>')">
 				<img alt="<%=foodData.getName()%>" src="<%=foodData.getImg()%>">
-				<h4><%=foodData.getName()%></h4>
+				<h4><%=foodData.getName()%>
+					<%
+					if (rating != 0) {
+					%>
+					<span class="rating"><i class="fa-solid fa-star"></i> <%=rating%></span>
+					<%
+					}
+					%>
+				</h4>
 				<h6 class="desc"><%=foodData.getDescription()%></h6>
 				<span class="center price-tag"><i
 					class="fa-solid fa-indian-rupee-sign"></i> <%=foodData.getPrice()%></span>
+
 				<div class="food-card-footer">
-					<button>Buy</button>
+					<button type="button" onclick="onclick="handleBuyClick('<%=request.getContextPath() + "/customer/OrderFood.jsp?foodId=" + foodData.getFoodId()%>')"">Buy</button>
 					<%
-					 boolean isSaved = user!=null?  userCartDao.getCartItem(userId, foodData.getFoodId()) : false;
-					 if(!isSaved)
-					 {
-						 %>
-						  <button
+					boolean isSaved = user != null ? userCartDao.getCartItem(userId, foodData.getFoodId()) : false;
+					if (!isSaved) {
+					%>
+					<button
 						onclick="handleCartBtnClick('<%=userId%>' , '<%=foodData.getFoodId()%>' , '<%=request.getContextPath() + "/customer/Login.jsp"%>', '<%=request.getContextPath() + "/user/cart/add"%>')">
 						<i class="fa-solid fa-cart-shopping"></i> Add to cart
 					</button>
-						 <%
-					 }else{
-						 %>
-						 <button>
-						     <i class="fa-solid fa-cart-shopping"></i> Saved
-				       	</button> 
-						 <%
-					 }
-					 %>
-					
+					<%
+					} else {
+					%>
+					<button>
+						<i class="fa-solid fa-cart-shopping"></i> Saved
+					</button>
+					<%
+					}
+					%>
+
 				</div>
 			</div>
 			<%
@@ -335,7 +360,8 @@ section {
 			<%
 			for (int i = startPage; i < endPage; i++) {
 			%>
-			<a class="pagination-btn center <%=currentPage == i ? "active" : ""%>"><%=i%></a>
+			<a
+				class="pagination-btn center <%=currentPage == i ? "active" : ""%>"><%=i%></a>
 			<%
 			}
 			%>

@@ -23,5 +23,6 @@ public class Orders
   private double totalPrice;
   private Timestamp orderDate;
   private String deliveryAddress;
+  private String orderReferenceId;
   
 }

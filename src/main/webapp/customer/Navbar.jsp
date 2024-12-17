@@ -1,12 +1,10 @@
 <%@page import="com.foodApp.Dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%
-	 User customer = (User) session.getAttribute("user");
-	
-	%>
+<%
+User customer = (User) session.getAttribute("user");
+%>
 <style>
-
 .nav-bar {
 	display: flex;
 	justify-content: space-between;
@@ -50,11 +48,15 @@
 }
 
 .nav-bar .menu ul a {
-    color:white;
+	color: white;
 	padding: 2px 5px;
 	border-radius: 8px;
 	cursor: pointer;
 	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 2px;
 }
 
 .nav-bar .menu ul li {
@@ -85,10 +87,10 @@
 	display: none;
 }
 
-#login-btn{
-  cursor: pointer;
-  color: white;
-  text-decoration: none;
+#login-btn {
+	cursor: pointer;
+	color: white;
+	text-decoration: none;
 }
 
 @media ( max-width :768px) {
@@ -127,19 +129,23 @@
 		justify-content: center;
 		flex-direction: column;
 		align-items: center;
-		gap:20px;
+		gap: 20px;
 	}
-	.mobile-nav .menu-list ul a{
+	.mobile-nav .menu-list ul a {
 		color: white;
 		text-decoration: none;
 		text-align: center;
 		width: fit-content;
 		padding: 5px 8px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 1px;
 	}
-	.mobile-nav .menu-list ul .active{
-	 background: white;
-	 border-radius: 9px;
-	 color: #e63946;
+	.mobile-nav .menu-list ul .active {
+		background: white;
+		border-radius: 9px;
+		color: #e63946;
 	}
 	.mobile-nav .menu-list ul a li {
 		list-style: none;
@@ -165,33 +171,38 @@
 
 	<div class="menu center desktop-nav">
 		<ul class="center">
-			<a href="<%=request.getContextPath() + "/customer/Home.jsp"%>" class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Home") ? "active" : ""%>" ><li >Home</li></a>
-			<a href="<%=request.getContextPath() + "/customer/AllFoodItems.jsp"%>" class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Food Items") ? "active" : ""%>" ><li >Food Items</li></a>
+			<a href="<%=request.getContextPath() + "/customer/Home.jsp"%>"
+				class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Home") ? "active" : ""%>">
+			<li>Home</li></a>
+			<a
+				href="<%=request.getContextPath() + "/customer/AllFoodItems.jsp"%>"
+				class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Food Items") ? "active" : ""%>"><li>Food
+					Items</li></a>
 			<%
-			 if(customer!=null)
-			 {
-				 %>
-				  <a class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Orders") ? "active" : ""%>"><li >Orders</li></a>
-				  <a href="<%=request.getContextPath() + "/customer/UserCart.jsp"%>" class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Cart") ? "active" : ""%>"><li >Cart</li></a>
-				 <% 
-			 }
+			if (customer != null) {
+			%>
+			<a href="<%=request.getContextPath() + "/customer/UserOrders.jsp"%>"
+				class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Orders") ? "active" : ""%>"><li>Orders</li></a>
+			<a href="<%=request.getContextPath() + "/customer/UserCart.jsp"%>"
+				class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Cart") ? "active" : ""%>"><li>Cart</li></a>
+			<%
+			}
 			%>
 		</ul>
 
-        <%
-         if(customer==null)
-         {
-        	 %>
-        	    <a id="login-btn" href="<%=request.getContextPath()+"/customer/Login.jsp"%>">Login</a>
-        	 <%
-         }else{
-        	 %>
-        	  <button type="button" class="custom-btn">Logout</button>
-        	 <% 
-         }
-        
-        %>
-		
+		<%
+		if (customer == null) {
+		%>
+		<a id="login-btn"
+			href="<%=request.getContextPath() + "/customer/Login.jsp"%>">Login</a>
+		<%
+		} else {
+		%>
+		<button type="button" class="custom-btn">Logout</button>
+		<%
+		}
+		%>
+
 	</div>
 
 	<i class="fa-solid fa-bars" id="menu-icon"></i>
@@ -202,9 +213,23 @@
 		<div class="menu-list">
 
 			<ul>
-				<a href="" class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Home") ? "active" : ""%>" ><li >Home</li></a>
-				<a href="" class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Food Menu") ? "active" : ""%>" ><li >Food Items</li></a>
-				<a href="" class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Orders") ? "active" : ""%>" ><li >Orders</li></a>
+				<a href=""
+					class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Home") ? "active" : ""%>">
+				<li>Home</li></a>
+				<a href=""
+					class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Food Menu") ? "active" : ""%>"><li>Food
+						Items</li></a>
+				<%
+				if (customer != null) {
+				%>
+				<a href="<%=request.getContextPath() + "/customer/UserOrders.jsp"%>"
+					class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Orders") ? "active" : ""%>"><li>Orders</li></a>
+				<a href="<%=request.getContextPath() + "/customer/UserCart.jsp"%>"
+					class="<%=request.getAttribute("menu").toString().equalsIgnoreCase("Cart") ? "active" : ""%>"><li>Cart</li></a>
+				<%
+				}
+				%>
+
 			</ul>
 			<button type="button">Logout</button>
 		</div>

@@ -97,6 +97,7 @@ public class FoodItemDaoImpl implements FoodItemDao {
 				foodItem.setAvailability(rs.getInt(7));
 				foodItem.setCreatedAt(rs.getTimestamp(8));
 				foodItem.setImg(rs.getString(9));
+				foodItem.setRating(rs.getDouble(10));
 				return foodItem;
 			}
 		} catch (SQLException e) {
@@ -149,9 +150,9 @@ public class FoodItemDaoImpl implements FoodItemDao {
     	int skip = (page -1 )* limit;
     	if(text !=null)
     	{
-    		query = "SELECT * FROM FOOD_ITEMS WHERE RESTAURANT_ID = ? AND ( NAME LIKE ? OR CATEGORY LIKE ?)  LIMIT ? OFFSET ?";
+    		query = "SELECT * FROM FOOD_ITEMS WHERE RESTAURANT_ID = ? AND ( NAME LIKE ? OR CATEGORY LIKE ?) ORDER BY RATING DESC  LIMIT ? OFFSET ?";
     	}else {
-    		query = "SELECT * FROM FOOD_ITEMS WHERE RESTAURANT_ID = ?  LIMIT ? OFFSET ?";
+    		query = "SELECT * FROM FOOD_ITEMS WHERE RESTAURANT_ID = ? ORDER BY RATING DESC  LIMIT ? OFFSET ?";
     	}
     	List<FoodItem> foodItems = new ArrayList();
 		try {
@@ -180,6 +181,7 @@ public class FoodItemDaoImpl implements FoodItemDao {
 				foodItem.setAvailability(rs.getInt(7));
 				foodItem.setCreatedAt(rs.getTimestamp(8));
 				foodItem.setImg(rs.getString(9));
+				foodItem.setRating(rs.getDouble(10));
 				foodItems.add(foodItem);
 			}
 		} catch (SQLException e) {
@@ -193,7 +195,7 @@ public class FoodItemDaoImpl implements FoodItemDao {
     public List<String> getSuggestion(String text) throws CustomException {
     	Set<Suggestion> suggestions = new HashSet();
     	
-    	String query= "SELECT NAME ,CATEGORY FROM FOOD_ITEMS WHERE NAME LIKE ? OR CATEGORY LIKE ? LIMIT 10";
+    	String query= "SELECT NAME ,CATEGORY FROM FOOD_ITEMS WHERE NAME LIKE ? OR CATEGORY LIKE ?   LIMIT 10";
     	try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, text+"%");
@@ -232,14 +234,64 @@ public class FoodItemDaoImpl implements FoodItemDao {
     
     
     @Override
+    public List<FoodItem> getFoodItemByCategories(List<String> category,int limit) throws CustomException {
+
+    	List<FoodItem> foodItems = new ArrayList<FoodItem>();
+    	if(category.size()>0)
+    	{
+    		StringBuilder query = new StringBuilder("SELECT * FROM FOOD_ITEMS WHERE ");
+            for (int i = 0; i < category.size(); i++) {
+                query.append(" CATEGORY LIKE ? ");
+                if (i < category.size() - 1) {
+                    query.append(" OR "); 
+                }
+            }
+            query.append(" ORDER BY RATING DESC LIMIT ?");
+            
+            try {
+				PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
+				for (int i = 0; i < category.size(); i++) {
+	                preparedStatement.setString(i + 1, "%" + category.get(i) + "%");
+	            }
+				preparedStatement.setInt(category.size(), limit);
+				ResultSet rs =preparedStatement.executeQuery();
+				while(rs.next())
+				{
+					FoodItem foodItem = new FoodItem();
+					foodItem.setFoodId(rs.getInt(1));
+					foodItem.setRestaurantId(rs.getInt(2));
+					foodItem.setName(rs.getString(3));
+					foodItem.setDescription(rs.getString(4));
+					foodItem.setPrice(rs.getDouble(5));
+					foodItem.setCategory(rs.getString(6));
+					foodItem.setAvailability(rs.getInt(7));
+					foodItem.setCreatedAt(rs.getTimestamp(8));
+					foodItem.setImg(rs.getString(9));
+					foodItem.setRating(rs.getDouble(10));
+					foodItems.add(foodItem);
+					
+				}
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+            
+    	}
+    	
+    	return foodItems;
+    }
+    
+    
+    @Override
     public List<FoodAndRestaurant> getFoodItem(String text, int page, int limit) throws CustomException {
     	String query = null;
     	int skip = (page -1 )* limit;
     	if(text !=null)
     	{
-    		query = "SELECT * FROM FOOD_ITEMS WHERE   NAME LIKE ? OR CATEGORY LIKE ?  LIMIT ? OFFSET ?";
+    		query = "SELECT * FROM FOOD_ITEMS WHERE   NAME LIKE ? OR CATEGORY LIKE ? ORDER BY RATING DESC  LIMIT ? OFFSET ?";
     	}else {
-    		query = "SELECT * FROM FOOD_ITEMS  LIMIT ? OFFSET ?";
+    		query = "SELECT * FROM FOOD_ITEMS ORDER BY RATING DESC  LIMIT ? OFFSET ?";
     	}
     	List<FoodAndRestaurant> foodItems = new ArrayList();
     	RestaurantDao restaurantDao = new RestaurantDaoImplmpl();
@@ -269,6 +321,7 @@ public class FoodItemDaoImpl implements FoodItemDao {
 				foodItem.setAvailability(rs.getInt(7));
 				foodItem.setCreatedAt(rs.getTimestamp(8));
 				foodItem.setImg(rs.getString(9));
+				foodItem.setRating(rs.getDouble(10));
 				Restaurant restaurant = restaurantDao.getOne(foodItem.getRestaurantId());
 				foodItems.add(new FoodAndRestaurant(foodItem, restaurant));
 			
@@ -307,6 +360,13 @@ public class FoodItemDaoImpl implements FoodItemDao {
 		}
 		return 0;
     }
+    
+    
+    private static String generatePlaceholders(int count) {
+        return String.join(", ", "?".repeat(count).split(""));
+    }
+    
+   
 	
 
 }

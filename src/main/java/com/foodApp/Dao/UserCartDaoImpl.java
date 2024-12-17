@@ -43,6 +43,28 @@ public class UserCartDaoImpl implements UserCartDao {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<UserCart> getCartItems(int userId) throws CustomException {
+		String query = "SELECT * FROM USER_CART WHERE USERID = ? ORDER BY CARTID DESC ";
+		List<UserCart>  userCarts= new ArrayList<UserCart>();
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, userId);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next())
+			{
+				userCarts.add(new UserCart(resultSet.getInt(1),resultSet.getInt(2) ,resultSet.getInt(3)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return userCarts;
+	}
+	
+	
 
 	@Override
 	public List<UserCart> getCartItems(int userId ,int page , int limit) throws CustomException {
@@ -123,5 +145,23 @@ public class UserCartDaoImpl implements UserCartDao {
 		}
 		return 0;
 	}
+	
+	@Override
+	public boolean delete(int userId) throws CustomException {
+		String query="DELETE FROM USER_CART WHERE USERID=?";
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, userId);
+			if(preparedStatement.executeUpdate()>0)
+			{
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	
 }
